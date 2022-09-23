@@ -18,6 +18,14 @@ public class UsersController : ControllerBase
     }
 
     [AllowAnonymous]
+    [HttpPost("register")]
+    public IActionResult Register(RegisterRequest model)
+    {
+        var response = _userService.Register(model);
+        return Ok(response);
+    }
+
+    [AllowAnonymous]
     [HttpPost("authenticate")]
     public IActionResult Authenticate(AuthenticateRequest model)
     {
