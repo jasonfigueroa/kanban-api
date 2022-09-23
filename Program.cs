@@ -26,21 +26,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 
-// add hardcoded test user to db on startup
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<DataContext>();    
-    var testUser = new User
-    {
-        FirstName = "Test",
-        LastName = "User",
-        Username = "test",
-        PasswordHash = BCrypt.Net.BCrypt.HashPassword("test")
-    };
-    context.Users.Add(testUser);
-    context.SaveChanges();
-}
-
 // configure HTTP request pipeline
 {
     // global cors policy

@@ -43,6 +43,8 @@ obj
 
 .vs
 app.db
+app.db-shm
+app.db-wal
 
 # May remove the following later
 Properties

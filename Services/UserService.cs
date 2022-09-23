@@ -9,6 +9,7 @@ using WebApi.Authorization;
 
 public interface IUserService
 {
+    RegisterResponse Register(RegisterRequest model);
     AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress);
     AuthenticateResponse RefreshToken(string token, string ipAddress);
     void RevokeToken(string token, string ipAddress);
@@ -30,6 +31,27 @@ public class UserService : IUserService
         _context = context;
         _jwtUtils = jwtUtils;
         _appSettings = appSettings.Value;
+    }
+
+    public RegisterResponse Register(RegisterRequest model)
+    {
+        if (_context.Users.Any(u => u.Username == model.Username))
+        {
+            throw new AppException("Username already exists");
+        }
+
+        var user = new User
+        {
+            FirstName = model.FirstName,
+            LastName = model.LastName,
+            Username = model.Username,
+            PasswordHash = BCrypt.HashPassword(model.Password)
+        };
+
+        _context.Users.Add(user);
+        _context.SaveChanges();
+
+        return new RegisterResponse("User successfully registered");
     }
 
     public AuthenticateResponse Authenticate(AuthenticateRequest model, string ipAddress)
