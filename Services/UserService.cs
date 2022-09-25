@@ -15,6 +15,7 @@ public interface IUserService
     void RevokeToken(string token, string ipAddress);
     IEnumerable<User> GetAll();
     User GetById(int id);
+    User GetCurrentUser(string refreshToken);
 }
 
 public class UserService : IUserService
@@ -134,6 +135,11 @@ public class UserService : IUserService
         var user = _context.Users.Find(id);
         if (user == null) throw new KeyNotFoundException("User not found");
         return user;
+    }
+
+    public User GetCurrentUser(string refreshToken)
+    {
+        return getUserByRefreshToken(refreshToken);
     }
 
     // helper methods

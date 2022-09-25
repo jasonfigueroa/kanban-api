@@ -14,4 +14,6 @@ public class User
 
     [JsonIgnore]
     public List<RefreshToken> RefreshTokens { get; set; }
+
+    public List<Card> Cards { get; set; }
 }

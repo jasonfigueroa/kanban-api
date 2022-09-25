@@ -6,8 +6,8 @@ using WebApi.Models.Users;
 using WebApi.Services;
 
 [Authorize]
-[ApiController]
 [Route("[controller]")]
+[ApiController]
 public class UsersController : ControllerBase
 {
     private IUserService _userService;

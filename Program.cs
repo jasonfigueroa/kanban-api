@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using WebApi;
 using WebApi.Authorization;
-using WebApi.Entities;
 using WebApi.Helpers;
 using WebApi.Services;
 
@@ -16,12 +16,15 @@ var builder = WebApplication.CreateBuilder(args);
     services.AddControllers()
         .AddJsonOptions(x => x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
 
+    services.AddAutoMapper(typeof(CardProfile));
+
     // configure strongly typed settings object
     services.Configure<AppSettings>(builder.Configuration.GetSection("AppSettings"));
 
     // configure DI for application services
     services.AddScoped<IJwtUtils, JwtUtils>();
     services.AddScoped<IUserService, UserService>();
+    services.AddScoped<ICardService, CardService>();
 }
 
 var app = builder.Build();
